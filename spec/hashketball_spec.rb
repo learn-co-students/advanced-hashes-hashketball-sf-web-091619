@@ -41,7 +41,7 @@ describe 'hashketball' do
   end
 
   describe '#shoe_size' do
-
+  
     it 'knows the shoe size of each player' do
       expect(shoe_size("Jeff Adrien")).to eq(18)
       expect(shoe_size("Bismack Biyombo")).to eq(16)
