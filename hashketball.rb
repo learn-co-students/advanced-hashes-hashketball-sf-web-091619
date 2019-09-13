@@ -168,5 +168,111 @@ def player_stats(player)
 end
 
 def big_shoe_rebounds
+  shoe = 0
+  rebound = 0
+  game_hash.each { |location, stats|
+    stats[:players].each { |player|
+      player.each { |name, info|
+        if shoe < info[:shoe]
+          shoe = info[:shoe]
+          rebound = info[:rebounds]
+        end
+      }
+    }
+  }
+  return rebound
+end
+
+def most_points_scored
+  points = 0
+  winner = nil
+  game_hash.each { |location, stats|
+    stats[:players].each { |player|
+      player.each { |name, info|
+        if points < info[:points]
+          winner = name
+          points = info[:points]
+        end
+      }
+    }
+  }
+  return winner
+end
+
+def winning_team
+  nets_score = 0
+  hornets_score = 0
+  game_hash.each { |location, stats|
+    if stats[:team_name] == "Brooklyn Nets"
+      stats[:players].each { |player|
+        player.each { |name, info|
+          nets_score += info[:points]
+        }
+      }
+    end
+  }
+  game_hash.each { |location, stats|
+    if stats[:team_name] == "Charlotte Hornets"
+      stats[:players].each { |player|
+        player.each { |name, info|
+          hornets_score += info[:points]
+        }
+      }
+    end
+  }
+  if nets_score > hornets_score
+    return "Brooklyn Nets"
+  else
+    return "Charlotte Hornets"
+  end
+end
+
+def player_with_longest_name
+  thename = nil
+  size = 0
+  game_hash.each { |location, stats|
+    stats[:players].each { |player|
+      player.each { |name, info|
+        if name.length > size
+          size = name.length
+          thename = name
+        end
+      }
+    }
+  }
+  return thename
+end
+
+def long_name_steals_a_ton?
+  thief = nil
+  steals = 0
   
+  thename = nil
+  size = 0
+  game_hash.each { |location, stats|
+    stats[:players].each { |player|
+      player.each { |name, info|
+        if name.length > size
+          size = name.length
+          thename = name
+        end
+      }
+    }
+  }
+  
+  game_hash.each { |location, stats|
+    stats[:players].each { |player|
+      player.each { |name, info|
+        if steals < info[:steals]
+          steals = info[:steals]
+          thief = name
+        end
+      }
+    }
+  }
+  if thename == thief
+    return true
+  else
+    return false
+  end
 end
