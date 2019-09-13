@@ -100,7 +100,7 @@ def game_hash
           assists: 2,
           steals: 1,
           blocks: 1,
-          slam_dunks: 1
+          slam_dunks: 0
         }},
         { "Kemba Walker" => {
           number: 33,
@@ -123,4 +123,50 @@ def num_points_scored(player)
       return name[player][:points] if name.has_key?(player)
     }
   }
+end
+
+def shoe_size(player)
+  game_hash.each { |location, stats|
+    stats[:players].each { |name|
+      return name[player][:shoe] if name.has_key?(player)
+    }
+  }
+end
+
+def team_colors(team)
+  game_hash.each { |location, stats| 
+    return stats[:colors] if stats[:team_name] == team
+  }
+end
+
+def team_names
+  names = []
+  game_hash.each { |location, stats|
+    names.push(stats[:team_name]) 
+  }
+  return names
+end
+
+def player_numbers(team)
+  numbers = []
+  game_hash.each { |location, stats|
+    if team == stats[:team_name]
+      stats[:players].each { |player|
+        player.each { |name, info| numbers.push(info[:number]) }
+      }
+    end
+  }
+  numbers
+end
+
+def player_stats(player)
+  game_hash.each { |location, stats|
+    stats[:players].each { |name|
+      return name[player] if name.has_key?(player)
+    }
+  }
+end
+
+def big_shoe_rebounds
+  
 end
